@@ -7,7 +7,7 @@
 	<Application.Resources>
         
         <!--Colors-->
-        <Color x:Key="accent">#FF8300</Color>
+        <Color x:Key="accent">#FFAA51</Color>
         <Color x:Key="primaryColor">#FFFFFF</Color>
         <Color x:Key="darkGray">#333337</Color>
         
