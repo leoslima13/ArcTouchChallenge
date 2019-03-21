@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             BackgroundColor="{StaticResource darkGray}"
+             x:Class="ArcTouchTest.Views.MovieDetailPage"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
+             ios:Page.UseSafeArea="true" 
+             Title="{Binding Model.Title}">
+
+    <ScrollView>
+        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Spacing="8">
+            <Image Aspect="AspectFill" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <Image.Source>
+                    <UriImageSource CacheValidity="10" CachingEnabled="True"
+                                    Uri="{Binding Model.BackdropPath, 
+                                    StringFormat='https://image.tmdb.org/t/p/w500{0}'}" />
+                </Image.Source>
+            </Image>
+
+            <ActivityIndicator Color="{StaticResource accent}" IsVisible="{Binding IsBusy}"
+                               IsRunning="{Binding IsBusy}" HorizontalOptions="Center" HeightRequest="30" />
+                               
+            <StackLayout Margin="5,0" Orientation="Horizontal" Spacing="2" HorizontalOptions="StartAndExpand">
+                    <Label Text="Release Date:" FontAttributes="Bold" TextColor="{StaticResource accent}"  />
+                    <Label Text="{Binding Model.ReleaseDate, StringFormat='{0:MM-dd-yyyy}'}" TextColor="White"  />
+            </StackLayout>
+            
+            <StackLayout Margin="5,0" Orientation="Horizontal" BindableLayout.ItemsSource="{Binding Genres}" Spacing="3">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Padding="2" BackgroundColor="{StaticResource accent}" CornerRadius="3"
+                                   HasShadow="false">
+                                <Label Text="{Binding Name}" TextColor="White" />
+                            </Frame>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+            </StackLayout>
+            
+            <Label Margin="5,0" Text="Overview:" FontAttributes="Bold" TextColor="{StaticResource accent}"  />
+            <Label Margin="5,0" Text="{Binding Model.Overview}" TextColor="White"  />
+
+            <StackLayout Margin="5,0,5,5" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand">
+                <Label Text="Production Companies:" TextColor="{StaticResource accent}"  FontAttributes="Bold" />
+                <StackLayout Orientation="Horizontal" BindableLayout.ItemsSource="{Binding ProductionCompanies}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="White" CornerRadius="3" Padding="0">
+                                <Image Aspect="AspectFit" HeightRequest="50" WidthRequest="50">
+                                    <Image.Source>
+                                        <UriImageSource Uri="{Binding LogoPath, StringFormat='https://image.tmdb.org/t/p/w500{0}'}"
+                                                        CacheValidity="10" CachingEnabled="True" />
+                                    </Image.Source>
+                                </Image>
+                            </Frame>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </StackLayout>
+
+        </StackLayout>
+
+    </ScrollView>
+</ContentPage>

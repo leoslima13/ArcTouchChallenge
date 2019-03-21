@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.DryIoc;assembly=Prism.DryIoc.Forms"
+             xmlns:cv="clr-namespace:ArcTouchTest.Converters;assembly=ArcTouchTest"
+             x:Class="ArcTouchTest.App">
+	<Application.Resources>
+        
+        <!--Colors-->
+        <Color x:Key="accent">#FF8300</Color>
+        <Color x:Key="primaryColor">#FFFFFF</Color>
+        <Color x:Key="darkGray">#333337</Color>
+        
+        <cv:InverseBooleanConverter x:Key="inverseBoolConverter" />
+        
+
+        <Style TargetType="NavigationPage">
+            <Setter Property="BarBackgroundColor" Value="{StaticResource accent}"/>
+            <Setter Property="BarTextColor" Value="White"/>
+            <Setter Property="BackButtonTitle" Value="" />
+        </Style>
+        
+        <Style x:Key="awesome-font" TargetType="Label">
+            <Setter Property="FontFamily" 
+                    Value="{OnPlatform Android='fa-solid-900.ttf#Font Awesome 5 Free Regular', 
+                    iOS='Font Awesome 5 Free'}" />
+        </Style>
+        
+        <Style x:Key="awesome-button" TargetType="Button">
+            <Setter Property="FontFamily" 
+                    Value="{OnPlatform Android='fa-solid-900.ttf#Font Awesome 5 Free Regular', 
+                    iOS='Font Awesome 5 Free'}" />
+        </Style>
+
+    </Application.Resources>
+</prism:PrismApplication>

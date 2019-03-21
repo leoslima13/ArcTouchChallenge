@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="ArcTouchTest.Views.MainPage"
+             BackgroundColor="{StaticResource darkGray}"
+             NavigationPage.BackButtonTitle=" "
+             Title="{Binding Title}"
+             x:Name="currentPage">
+    
+    <NavigationPage.TitleView>
+        <Grid HorizontalOptions="FillAndExpand">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            
+            <Label Text="{Binding Title}" FontSize="Medium" HorizontalOptions="CenterAndExpand"
+                   VerticalOptions="CenterAndExpand"
+                   TextColor="White" FontAttributes="Bold" />
+            
+            <Button BorderWidth="0" BackgroundColor="Transparent" VerticalOptions="CenterAndExpand"
+                    Text="&#xf002;" Padding="5,5" Style="{StaticResource awesome-button}"
+                    Command="{Binding SearchButtonCommand}" Grid.Column="1" TextColor="White"
+                    IsVisible="{Binding NoItemsAndNoConnection, Converter={StaticResource inverseBoolConverter}}"/>
+            
+        </Grid>
+    </NavigationPage.TitleView>
+    
+    <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <SearchBar x:Name="searchBar" Placeholder="Search by name..." IsVisible="{Binding IsSearching}"
+                   Text="{Binding SearchText}" SearchCommand="{Binding SearchCommand}"
+                   BackgroundColor="{StaticResource accent}"/>
+        
+        <Grid RowSpacing="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+
+            <flv:FlowListView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" FlowColumnExpand="ProportionalFirst"
+                              SeparatorVisibility="None" HasUnevenRows="true" FlowColumnCount="{Binding ColumnCount}"
+                              FlowItemTappedCommand="{Binding SelectedItemCommand}" FlowItemsSource="{Binding Items}"
+                              FlowIsLoadingInfinite="{Binding IsBusyInfinite}" FlowIsLoadingInfiniteEnabled="True"
+                              FlowTotalRecords="{Binding TotalRecords}" FlowLoadingCommand="{Binding LoadMoreCommand}"
+                              IsPullToRefreshEnabled="True" IsRefreshing="{Binding IsBusy}" RefreshCommand="{Binding RefreshCommand}"
+                              Margin="5,0" BackgroundColor="{StaticResource darkGray}" IsVisible="{Binding HasItems}"
+                              RefreshControlColor="{StaticResource accent}">
+
+                <flv:FlowListView.FlowLoadingTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label Text="Loading..." HorizontalOptions="Center" TextColor="White" FontSize="Medium"
+                                   IsVisible="{Binding Path=BindingContext.IsSearching, Source={x:Reference currentPage}, Converter={StaticResource inverseBoolConverter}}"/>
+                        </ViewCell>
+                    </DataTemplate>
+                </flv:FlowListView.FlowLoadingTemplate>
+
+                <flv:FlowListView.FlowColumnTemplate>
+                    <DataTemplate>
+                        <Image Margin="0,3" Aspect="AspectFit">
+                            <Image.Source>
+                                <UriImageSource CachingEnabled="True" CacheValidity="10"
+                                                Uri="{Binding PosterPath, StringFormat='https://image.tmdb.org/t/p/w500{0}'}" />
+                            </Image.Source>
+                        </Image>
+                    </DataTemplate>
+                </flv:FlowListView.FlowColumnTemplate>
+
+            </flv:FlowListView>
+            
+            <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"
+                         InputTransparent="true" Spacing="5"
+                         IsVisible="{Binding NoItemsAndNoConnection}">
+                
+                <Grid>
+                    <Label Text="&#xf1eb;" FontSize="72" HorizontalOptions="Center"
+                       TextColor="{StaticResource accent}" Style="{StaticResource awesome-font}" />
+                    
+                    <Label Text="&#xf715;" FontSize="72" HorizontalOptions="Center"
+                       TextColor="{StaticResource accent}" Style="{StaticResource awesome-font}" />
+                </Grid>
+                
+                <Label Text="No internet connection. Please verify..." HorizontalOptions="Center"
+                       TextColor="White" />
+                
+            </StackLayout>
+            
+            <Label Text="No items found" TextColor="White" HorizontalOptions="CenterAndExpand"
+                   Margin="0,5,0,0" IsVisible="{Binding NoItemsFound}" />
+
+        </Grid>    
+    </StackLayout>
+    
+
+</ContentPage>
